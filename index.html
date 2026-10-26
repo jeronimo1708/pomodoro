@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pomodoro</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-mode="focus">
+  <main class="card">
+    <nav class="modes" role="tablist">
+      <button data-mode="focus" role="tab">Focus</button>
+      <button data-mode="short" role="tab">Short break</button>
+      <button data-mode="long" role="tab">Long break</button>
+    </nav>
+
+    <div class="ring">
+      <svg viewBox="0 0 120 120" aria-hidden="true">
+        <circle class="track" cx="60" cy="60" r="54" />
+        <circle class="progress" cx="60" cy="60" r="54" />
+      </svg>
+      <div class="time" id="time" aria-live="polite">25:00</div>
+    </div>
+
+    <div class="controls">
+      <button id="reset" class="icon" title="Reset (R)" aria-label="Reset">↺</button>
+      <button id="toggle" class="primary">Start</button>
+      <button id="skip" class="icon" title="Skip (S)" aria-label="Skip">⏭</button>
+    </div>
+
+    <p class="count">Session <span id="session">1</span> · <span id="done">0</span> completed today</p>
+
+    <details class="settings">
+      <summary>Settings</summary>
+      <form id="settings">
+        <label>Focus <input type="number" name="focus" min="1" max="120"> min</label>
+        <label>Short break <input type="number" name="short" min="1" max="60"> min</label>
+        <label>Long break <input type="number" name="long" min="1" max="60"> min</label>
+        <label>Long break every <input type="number" name="interval" min="2" max="10"> sessions</label>
+        <label class="check"><input type="checkbox" name="autoStart"> Auto-start next timer</label>
+      </form>
+    </details>
+  </main>
+
+  <p class="hint"><kbd>Space</kbd> start/pause · <kbd>R</kbd> reset · <kbd>S</kbd> skip</p>
+
+  <script src="app.js"></script>
+</body>
+</html>
