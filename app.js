@@ -56,6 +56,7 @@ function render() {
 
 function start() {
   if (state.endsAt) return;
+  unlockAudio();
   state.endsAt = Date.now() + state.remaining;
   state.tick = setInterval(() => {
     if (Date.now() >= state.endsAt) complete();
@@ -102,9 +103,21 @@ function complete() {
   if (settings.autoStart) start();
 }
 
+// Browsers only allow audio started from a user gesture, so the context is
+// created (or resumed) on Start and reused when the timer ends.
+let audioCtx = null;
+
+function unlockAudio() {
+  try {
+    audioCtx ??= new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === "suspended") audioCtx.resume();
+  } catch {}
+}
+
 function chime() {
   try {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    unlockAudio();
+    const ctx = audioCtx;
     [0, 0.25, 0.5].forEach((t, i) => {
       const osc = ctx.createOscillator();
       const gain = ctx.createGain();
